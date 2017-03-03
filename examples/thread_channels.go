@@ -29,11 +29,7 @@ type counter struct {
 }
 
 func Counter(done chan int) *counter {
-	c := &counter{
-		count: 0,
-		done:  done,
-		in:    make(chan int),
-	}
+	c := &counter{count: 0, done: done, in: make(chan int)}
 	c.start()
 	return c
 }

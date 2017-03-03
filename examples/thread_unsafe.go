@@ -2,21 +2,15 @@ package main
 
 import (
 	"fmt"
-	// /"time"
 )
-
-type counter struct {
-	count int
-	done  chan int
-}
 
 func main() {
 
+	n, w := 100, 10000
 	done := make(chan int)
 	c := Counter(done)
-	n := 10000
 	for i := 0; i < n; i++ {
-		go c.increment(n)()
+		go c.increment(w)()
 	}
 
 	finished := 0
@@ -24,8 +18,13 @@ func main() {
 		finished += <-done
 	}
 
-	fmt.Printf("result: %d\nexpect: %d\n", c.count, n*n)
+	fmt.Printf("result: %d\nexpect: %d\n", c.count, n*w)
 	return
+}
+
+type counter struct {
+	count int
+	done  chan int
 }
 
 func Counter(done chan int) *counter {
