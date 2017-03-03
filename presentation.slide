@@ -133,7 +133,9 @@ Handle any messages
 * Try again
 .play examples/logger_select.go /START3 OMIT/,/END3 OMIT/
 
-* The Strategy
+* What next?
+
+* Share memory by communicating, not the reverse
 
 .image img/reader_writer.jpg
 .caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
