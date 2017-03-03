@@ -10,7 +10,7 @@ func main() {
 	done := make(chan int)
 	c := Counter(done)
 	for i := 0; i < n; i++ {
-		go c.incrementN(w)()
+		go c.increment(w)()
 	}
 
 	finished := 0
@@ -38,7 +38,7 @@ func Counter(done chan int) *counter {
 	return c
 }
 
-func (c *counter) incrementN(n int) func() {
+func (c *counter) increment(n int) func() {
 	return func() {
 		for i := 0; i < n; i++ {
 			c.Count()

@@ -5,7 +5,7 @@ import (
 	// /"time"
 )
 
-type Counter struct {
+type counter struct {
 	count int
 	done  chan int
 }
@@ -13,10 +13,10 @@ type Counter struct {
 func main() {
 
 	done := make(chan int)
-	c := &Counter{count: 0, done: done}
+	c := Counter(done)
 	n := 10000
 	for i := 0; i < n; i++ {
-		go incrementN(c, n)()
+		go c.increment(n)()
 	}
 
 	finished := 0
@@ -28,7 +28,11 @@ func main() {
 	return
 }
 
-func incrementN(c *Counter, n int) func() {
+func Counter(done chan int) *counter {
+	return &counter{count: 0, done: done}
+}
+
+func (c *counter) increment(n int) func() {
 	return func() {
 		for i := 0; i < n; i++ {
 			c.Count()
@@ -37,6 +41,6 @@ func incrementN(c *Counter, n int) func() {
 	}
 }
 
-func (c *Counter) Count() {
+func (c *counter) Count() {
 	c.count += 1
 }
