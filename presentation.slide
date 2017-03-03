@@ -1,0 +1,139 @@
+
+Concurrency in Go
+Introducing Goroutines and Channels
+12:10 25 Mar 2017
+Tags: goroutines, concurrency, channels
+
+Garret Meier
+CS 430
+ghmeier@iastate.edu
+https://github.com/ghmeier/go-concurrency
+
+* Motivation
+
+* Existing Solution
+Errors are caused by sharing memory.
+
+In Java, fixing this requires:
+
+- Synchronization
+- Thread safety
+- Locking
+- Blocking
+- Happens-before...
+
+Is there a _different_ way?
+
+* Go's Philosophy
+
+
+* 1. Concurrency is not Paralellism
+
+*Concurrency*
+
+- single thread
+- interleaved execution
+
+*Parallelism*
+
+- multi-thread
+- separate execution
+
+* 2. Avoid sharing memory
+
+_Instead:_
+
+Share memory by communicating, *don't* communicate by sharing memory.
+
+Driven by _Communicating_Central_Procesess_ paradigm
+
+_How?_
+
+- goroutines
+- channels
+
+* Goroutines
+
+* What's a goroutine?
+
+Independently executing function
+
+- Ultra-lightweight 'thread'
+- Mapped to os thread, not equivalent
+- Low memory footprint
+- Destroyed on exit
+- Runs a function
+
+* Run a goroutine
+
+.play examples/hello.go /START OMIT/,/END OMIT/
+
+or
+
+.code examples/hello_1.go /^func hello/,/^}/
+.play examples/hello_1.go /START OMIT/,/END OMIT/
+
+* Run a thousand goroutines
+
+.code examples/hello_1000.go /^func hello/,/^}/
+.play examples/hello_1000.go /^func main/,/^}/
+
+* Channels
+
+* What's a channel?
+
+Pipeline for information
+
+- Sender and Receiver
+- Used to communicate
+- Blocking at both ends
+- Typed input/output
+
+.image img/channel.jpg
+.caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
+
+* Use a channel
+
+Make a channel:
+.code examples/hello_channel.go /START1 OMIT/,/END1 OMIT/
+
+Handle receiving:
+.code examples/hello_channel.go /START2 OMIT/,/END2 OMIT/
+
+Send input:
+.code examples/hello_channel.go /START3 OMIT/,/END3 OMIT/
+
+* Use a channel
+
+.play examples/hello_channel.go /^func main/,/^}/
+
+No locking, No synchronize, No callback/future
+
+* A Common Pattern
+
+* Multiple Channels
+
+A logger with multiple sources.
+
+.code examples/logger.go /START1 OMIT/,/END1 OMIT/
+
+Handle any messages
+.code examples/logger.go /^func handle/,/^}/
+.code examples/logger.go /START2 OMIT/,/END2 OMIT/
+
+* Try it:
+.play examples/logger.go /START3 OMIT/,/END3 OMIT/
+
+* Problem: deadlock
+.code examples/logger.go /START4 OMIT/,/END4 OMIT/
+
+*Solution:* select
+.code examples/logger_select.go /START4 OMIT/,/END4 OMIT/
+
+* Try again
+.play examples/logger_select.go /START3 OMIT/,/END3 OMIT/
+
+* The Strategy
+
+.image img/reader_writer.jpg
+.caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
