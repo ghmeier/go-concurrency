@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func hello(i int) {
@@ -18,6 +19,7 @@ func main() {
 		}(i)
 	} // HL
 	// END OMIT
+	time.Sleep(time.Duration(1) * time.Second)
 	total := 1
 	for total < 1000 {
 		total += <-done
