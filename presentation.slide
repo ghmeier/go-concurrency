@@ -76,7 +76,7 @@ or
 * Run a thousand goroutines
 
 .code examples/hello_1000.go /^func hello/,/^}/
-.play examples/hello_1000.go /^func main/,/^}/
+.play examples/hello_1000.go /START OMIT/,/END OMIT/
 
 * Channels
 

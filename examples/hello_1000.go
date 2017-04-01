@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func hello(i int) {
@@ -10,10 +9,17 @@ func hello(i int) {
 }
 
 func main() {
+	done := make(chan int)
 	// START OMIT
-	for i := 0; i < 1000; i++ { // HL
-		go hello(i) // HL
+	for i := 0; i < 1000; i++ {
+		go func(i int) {
+			hello(i)  // HL
+			done <- 1 // OMIT
+		}(i)
 	} // HL
 	// END OMIT
-	time.Sleep(time.Duration(1) * time.Second)
+	total := 0
+	for total < 1000 {
+		total += <-done
+	}
 }
