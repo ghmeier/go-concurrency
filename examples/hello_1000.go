@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func hello(i int) {
-	fmt.Printf("#%d\n", i)
+	if i == 999 {
+		fmt.Printf("#%d\n", i)
+	}
 }
 
 func main() {
-	done := make(chan int)
+	done := make(chan int, 1000)
 	// START OMIT
 	for i := 0; i < 1000; i++ {
 		go func(i int) {
@@ -19,8 +20,7 @@ func main() {
 		}(i)
 	} // HL
 	// END OMIT
-	time.Sleep(time.Duration(1) * time.Second)
-	total := 1
+	total := 0
 	for total < 1000 {
 		total += <-done
 	}
