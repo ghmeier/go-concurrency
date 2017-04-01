@@ -18,7 +18,7 @@ func main() {
 		}(i)
 	} // HL
 	// END OMIT
-	total := 0
+	total := 1
 	for total < 1000 {
 		total += <-done
 	}
