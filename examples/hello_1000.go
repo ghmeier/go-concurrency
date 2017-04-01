@@ -5,13 +5,11 @@ import (
 )
 
 func hello(i int) {
-	if i == 999 {
-		fmt.Printf("#%d\n", i)
-	}
+	fmt.Printf("#%d\n", i)
 }
 
 func main() {
-	done := make(chan int, 1000)
+	done := make(chan int)
 	// START OMIT
 	for i := 0; i < 1000; i++ {
 		go func(i int) {
@@ -20,7 +18,7 @@ func main() {
 		}(i)
 	} // HL
 	// END OMIT
-	total := 0
+	total := 1
 	for total < 1000 {
 		total += <-done
 	}
