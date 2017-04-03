@@ -21,6 +21,7 @@ func main() {
 	total := 1
 	for total < 1000 {
 		if <-done {
+			fmt.Println(total)
 			total++
 		}
 	}
