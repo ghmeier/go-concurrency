@@ -9,17 +9,20 @@ func hello(i int) {
 }
 
 func main() {
-	done := make(chan int)
+	done := make(chan bool)
 	// START OMIT
 	for i := 0; i < 1000; i++ {
 		go func(i int) {
-			hello(i)  // HL
-			done <- 1 // OMIT
+			hello(i)     // HL
+			done <- true // OMIT
 		}(i)
 	} // HL
 	// END OMIT
 	total := 1
 	for total < 1000 {
-		total += <-done
+		if <-done {
+			total++
+		}
 	}
+	fmt.Println("Done")
 }
